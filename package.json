@@ -1,0 +1,10 @@
+{
+  "name": "ux_designer_replacement_agent_fe",
+  "version": "1.0.0",
+  "description": "Frontend for the UX Designer Replacement Agent.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {}
+}
