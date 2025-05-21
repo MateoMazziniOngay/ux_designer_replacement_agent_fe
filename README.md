@@ -15,3 +15,11 @@ Install `forge-tunnel` with `npm`
 ```bash
 npm install forge-tunnel
 ```
+
+## Starting the project
+
+Run the application with the standard npm start command:
+
+```bash
+npm run start
+```

@@ -4,5 +4,7 @@ node_modules/
 # Build output
 build/
 dist/
+
 # Logs
-*.logcoverage/
+*.log
+coverage/
