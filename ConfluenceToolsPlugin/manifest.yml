@@ -1,0 +1,19 @@
+modules:
+  macro:
+    - key: confluencetoolsplugin-hello-world-macro
+      resource: main
+      render: native
+      resolver:
+        function: resolver
+      title: Sofia
+  function:
+    - key: resolver
+      handler: index.handler
+resources:
+  - key: main
+    path: src/frontend/index.jsx
+
+app:
+  runtime:
+    name: nodejs22.x
+  id: ari:cloud:ecosystem::app/cceb4834-30d7-4de7-a643-6c6aa9a205b7
