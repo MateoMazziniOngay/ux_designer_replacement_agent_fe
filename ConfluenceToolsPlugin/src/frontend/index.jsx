@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import ForgeReconciler, { Text, Link, Image } from "@forge/react";
 import { invoke } from "@forge/bridge";
 import myImage from "../static/my-image.png";
+import { generateUIImage } from "../services/uiGeneratorService";
+
 
 export default MyComponent;
 
@@ -9,17 +11,18 @@ const App = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    invoke("getText", { example: "my-invoke-variable" }).then(setData);
+    generateUIImage("Design a dashboard with KPIs and charts")
+      .then((url) => setData(url))
+      .catch((err) => {
+        console.error("Failed to generate image:", err);
+        setData(null);
+      });
   }, []);
 
   return (
     <>
-      <Text>{data ? data : "Loading..."}</Text>
-      <Text>My image1:</Text>
-      <Image src={myImage} alt="My image" />
-
-      <Text>Espacioooooooooooo:</Text>
-      <Text>My image1:</Text>
+      <Text>{data ? "Generated Image:" : "Loading..."}</Text>
+      {data && <Image src={data} alt="Generated UI" />}
     </>
   );
 };
