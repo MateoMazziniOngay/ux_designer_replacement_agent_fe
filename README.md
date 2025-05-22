@@ -1,36 +1,39 @@
-# Forge Hello World
+# Sofia Forge Macro
 
-This project contains a Forge app written in Javascript that displays `Hello World!` in a Confluence macro. 
+This repository contains a Confluence Forge app that demonstrates how to display a generated user interface image inside a macro. The front‑end is built with React and the app is configured to run on the Forge Node.js 22 runtime.
 
-See [developer.atlassian.com/platform/forge/](https://developer.atlassian.com/platform/forge) for documentation and tutorials explaining Forge.
+When the macro is rendered it calls a local HTTP service (`http://localhost:8000/generate-ui`) to request a UI mockup for the requirement **"Design a dashboard with KPIs and charts"**. The service should respond with JSON in the form:
+
+```json
+{ "image_url": "https://example.com/image.png" }
+```
+
+The returned image URL is then displayed in the macro using the `<Image>` component.
 
 ## Requirements
 
-See [Set up Forge](https://developer.atlassian.com/platform/forge/set-up-forge/) for instructions to get set up.
+- Forge CLI (see [Set up Forge](https://developer.atlassian.com/platform/forge/set-up-forge/))
+- A local service running on `http://localhost:8000` that exposes a `POST /generate-ui` endpoint and returns an `image_url` field.
 
 ## Quick start
 
-- Modify your app frontend by editing the `src/frontend/index.jsx` file.
+1. Edit the UI logic in `src/frontend/index.jsx` or the helper service in `src/services/uiGeneratorService.js` as needed.
+2. Deploy and install the app:
 
-- Modify your app backend by editing the `src/resolvers/index.js` file to define resolver functions. See [Forge resolvers](https://developer.atlassian.com/platform/forge/runtime-reference/custom-ui-resolver/) for documentation on resolver functions.
-
-- Build and deploy your app by running:
-```
+```bash
 forge deploy
-```
-
-- Install your app in an Atlassian site by running:
-```
 forge install
 ```
 
-- Develop your app by running `forge tunnel` to proxy invocations locally:
-```
+3. During development run `forge tunnel` to serve the custom UI locally:
+
+```bash
 forge tunnel
 ```
 
+4. Insert the **Sofia** macro in a Confluence page. Once loaded it will fetch the generated image and display it.
+
 ### Notes
-- Use the `forge deploy` command when you want to persist code changes.
-- Use the `forge install` command when you want to install the app on a new site.
-- Once the app is installed on a site, the site picks up the new app changes you deploy without needing to rerun the install command.
+- Use `forge deploy` whenever you want to persist code changes.
+- Once installed, subsequent deployments are picked up automatically by the site without reinstallation.
 
