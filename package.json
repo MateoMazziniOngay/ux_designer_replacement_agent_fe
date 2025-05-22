@@ -1,10 +1,20 @@
 {
-  "name": "ux_designer_replacement_agent_fe",
-  "version": "1.0.0",
-  "description": "Frontend for the UX Designer Replacement Agent.",
-  "main": "src/index.js",
+  "name": "confluence-macro-ui-kit",
+  "version": "1.1.11",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
   "scripts": {
-    "start": "node src/index.js"
+    "lint": "eslint src/**/*"
   },
-  "dependencies": {}
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "dependencies": {
+    "@forge/bridge": "4.5.2",
+    "@forge/react": "11.2.1",
+    "@forge/resolver": "1.6.10",
+    "react": "^18.2.0"
+  }
 }
