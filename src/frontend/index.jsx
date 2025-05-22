@@ -3,26 +3,53 @@ import ForgeReconciler, { Text, Link, Image } from "@forge/react";
 import { invoke } from "@forge/bridge";
 import myImage from "../static/my-image.png";
 import { generateUIImage } from "../services/uiGeneratorService";
+import { TextField, Button } from "@forge/react";
 
 
 export default MyComponent;
 
 const App = () => {
-  const [data, setData] = useState(null);
+  const [requirement, setRequirement] = useState("");
+  const [imageUrl, setImageUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    generateUIImage("Design a dashboard with KPIs and charts")
-      .then((url) => setData(url))
-      .catch((err) => {
-        console.error("Failed to generate image:", err);
-        setData(null);
-      });
-  }, []);
+
+  const handleGenerateUI = async () => {
+    if (!requirement.trim()) return;
+
+    setLoading(true);
+    setImageUrl(null);
+
+    try {
+      const url = await generateUIImage(requirement);
+      setImageUrl(url);
+    } catch (error) {
+      console.error("Error generating image:", error);
+    }
+
+    setLoading(false);
+  };
+
 
   return (
     <>
-      <Text>{data ? "Generated Image:" : "Loading..."}</Text>
-      {data && <Image src={data} alt="Generated UI" />}
+      <TextField
+        name="requirement"
+        placeholder="e.g. A modern mobile login screen"
+        value={requirement}
+        onChange={(e) => setRequirement(e.target.value)}
+      />
+
+      <Button text="Generate UI" onClick={handleGenerateUI} />
+
+      {loading && <Text>Generating...</Text>}
+
+      {imageUrl && (
+        <>
+          <Text>Generated Image:</Text>
+          <Image src={imageUrl} alt="Generated UI" />
+        </>
+      )}
     </>
   );
 };
