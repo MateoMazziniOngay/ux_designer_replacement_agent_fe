@@ -1,25 +1,42 @@
 import React, { useEffect, useState } from "react";
-import ForgeReconciler, { Text, Link, Image } from "@forge/react";
+import ForgeReconciler, {
+  Text,
+  Link,
+  Image,
+  Button,
+  TextArea,
+} from "@forge/react";
 import { invoke } from "@forge/bridge";
 import myImage from "../static/my-image.png";
 
-export default MyComponent;
-
 const App = () => {
   const [data, setData] = useState(null);
+  const [showContent, setShowContent] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
-  useEffect(() => {
-    invoke("getText", { example: "my-invoke-variable" }).then(setData);
-  }, []);
+  const handleButtonClick = () => {
+    invoke("getText", { example: inputValue }).then(setData);
+    setShowContent(true);
+  };
 
   return (
     <>
-      <Text>{data ? data : "Loading..."}</Text>
-      <Text>My image1:</Text>
-      <Image src={myImage} alt="My image" />
+      <TextArea
+        label="Entrada"
+        name="entrada"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+      />
 
-      <Text>Espacioooooooooooo:</Text>
-      <Text>My image1:</Text>
+      <Button onClick={handleButtonClick}>Generate image</Button>
+      {showContent && (
+        <>
+          <Text>Valor actual: {inputValue}</Text>
+          <Image src={myImage} alt="My image" />
+
+          <Text> jdfsdjkdjsjfdjfhjdajjdjsjad</Text>
+        </>
+      )}
     </>
   );
 };
