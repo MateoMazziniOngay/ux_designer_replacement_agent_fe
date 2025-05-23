@@ -19,6 +19,8 @@ const App = () => {
     setShowContent(true);
   };
 
+  const handleButton = () => {};
+
   return (
     <>
       <TextArea
@@ -27,6 +29,13 @@ const App = () => {
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />
+
+      <Button onClick={handleButton}>Generate Query</Button>
+      {showContent && (
+        <>
+          <Text>Valor actual: {inputValue}</Text>
+        </>
+      )}
 
       <Button onClick={handleButtonClick}>Generate image</Button>
       {showContent && (
