@@ -1,27 +1,21 @@
-import React, { useEffect, useState } from "react";
-import ForgeReconciler, { Text, Link, Image } from "@forge/react";
-import { invoke } from "@forge/bridge";
-import myImage from "../static/my-image.png";
+import React, { useState } from "react";
+import ForgeReconciler, { Text, TextArea, Button, Image } from "@forge/react";
 import { generateUIImage } from "../services/uiGeneratorService";
-import { TextField, Button } from "@forge/react";
-
-
-export default MyComponent;
 
 const App = () => {
-  const [requirement, setRequirement] = useState("");
+  const [input, setInput] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
 
-
-  const handleGenerateUI = async () => {
-    if (!requirement.trim()) return;
+  const handleClick = async () => {
+    if (!input.trim()) return;
 
     setLoading(true);
     setImageUrl(null);
 
     try {
-      const url = await generateUIImage(requirement);
+      const url = await generateUIImage(input);
+      console.log("[DEBUG] Received image URL:", url);
       setImageUrl(url);
     } catch (error) {
       console.error("Error generating image:", error);
@@ -30,17 +24,20 @@ const App = () => {
     setLoading(false);
   };
 
-
   return (
     <>
-      <TextField
+      <Text>Enter a UI requirement:</Text>
+
+      <TextArea
+        autoFocus={true}
+        label="Requirement"
         name="requirement"
-        placeholder="e.g. A modern mobile login screen"
-        value={requirement}
-        onChange={(e) => setRequirement(e.target.value)}
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="e.g. A login modal with 2 fields"
       />
 
-      <Button text="Generate UI" onClick={handleGenerateUI} />
+      <Button text="Generate UI" onClick={handleClick}>Generate UI</Button>
 
       {loading && <Text>Generating...</Text>}
 
