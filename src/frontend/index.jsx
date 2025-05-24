@@ -1,28 +1,52 @@
-import React, { useEffect, useState } from "react";
-import ForgeReconciler, { Text, Link, Image } from "@forge/react";
-import { invoke } from "@forge/bridge";
-import myImage from "../static/my-image.png";
+import React, { useState } from "react";
+import ForgeReconciler, { Text, TextArea, Button, Image } from "@forge/react";
 import { generateUIImage } from "../services/uiGeneratorService";
 
-
-export default MyComponent;
-
 const App = () => {
-  const [data, setData] = useState(null);
+  const [input, setInput] = useState("");
+  const [imageUrl, setImageUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    generateUIImage("Design a dashboard with KPIs and charts")
-      .then((url) => setData(url))
-      .catch((err) => {
-        console.error("Failed to generate image:", err);
-        setData(null);
-      });
-  }, []);
+  const handleClick = async () => {
+    if (!input.trim()) return;
+
+    setLoading(true);
+    setImageUrl(null);
+
+    try {
+      const url = await generateUIImage(input);
+      console.log("[DEBUG] Received image URL:", url);
+      setImageUrl(url);
+    } catch (error) {
+      console.error("Error generating image:", error);
+    }
+
+    setLoading(false);
+  };
 
   return (
     <>
-      <Text>{data ? "Generated Image:" : "Loading..."}</Text>
-      {data && <Image src={data} alt="Generated UI" />}
+      <Text>Enter a UI requirement:</Text>
+
+      <TextArea
+        autoFocus={true}
+        label="Requirement"
+        name="requirement"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="e.g. A login modal with 2 fields"
+      />
+
+      <Button text="Generate UI" onClick={handleClick}>Generate UI</Button>
+
+      {loading && <Text>Generating...</Text>}
+
+      {imageUrl && (
+        <>
+          <Text>Generated Image:</Text>
+          <Image src={imageUrl} alt="Generated UI" />
+        </>
+      )}
     </>
   );
 };
